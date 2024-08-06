@@ -2,8 +2,6 @@ package com.nr.lambda.app;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.newrelic.opentracing.LambdaTracer;
-import com.newrelic.opentracing.aws.LambdaTracing;
 import io.opentracing.Span;
 import io.opentracing.util.GlobalTracer;
 
@@ -11,18 +9,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class BaseHandler<EV, RS> implements RequestHandler<EV, RS> {
-    static {
-        GlobalTracer.registerIfAbsent(LambdaTracer.INSTANCE);
-    }
-
+    @Override
     public RS handleRequest(EV event, Context context) {
-        return LambdaTracing.instrument(event, context, this::instrumentedHandler);
-    }
-
-    public RS instrumentedHandler(EV event, Context context) {
         try {
             Span span = GlobalTracer.get().activeSpan();
-            span.setOperationName(context.getFunctionName());
             context.getLogger().log("Span ID : " + span.context().toSpanId());
             context.getLogger().log("Trace ID : " + span.context().toTraceId());
             context.getLogger().log("Function " + context.getFunctionName() + " called");

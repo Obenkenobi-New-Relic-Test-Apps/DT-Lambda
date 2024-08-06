@@ -1,7 +1,6 @@
 package com.nr.lambda.app;
 
 import com.amazonaws.services.lambda.runtime.Context;
-import com.newrelic.opentracing.LambdaPayloadContext;
 import com.newrelic.opentracing.LambdaSpanContext;
 import io.opentracing.SpanContext;
 import io.opentracing.util.GlobalTracer;
@@ -16,11 +15,11 @@ public class BackendHandler extends BaseHandler<Map<String, Object>, Map<String,
         if (spanContext instanceof LambdaSpanContext) {
             parentId = ((LambdaSpanContext)spanContext).getParentId();
         }
-        String body = "{\n" +
-                "\"myTraceId\": \""+ spanContext.toTraceId() + "\",\n" +
-                "\"key\": \"value\" \n" +
-                "\"spanId\": \"" + spanContext.toSpanId() + "\",\n" +
-                "\"parentId\": \"" + parentId + "\"\n" +
+        String body = "{ " +
+                "\"myTraceId\": \""+ spanContext.toTraceId() + "\", " +
+                "\"key\": \"value\" " +
+                "\"spanId\": \"" + spanContext.toSpanId() + "\", " +
+                "\"parentId\": \"" + parentId + "\" " +
                 "}";
         return createMapResponse(200, "application/json", body);
     }
