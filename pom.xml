@@ -23,30 +23,33 @@
       <version>1.2.2</version>
     </dependency>
     <dependency>
+      <groupId>com.amazonaws</groupId>
+      <artifactId>aws-java-sdk-core</artifactId>
+      <version>1.12.13</version>
+    </dependency>
+
+    <!-- Only using this dependency for getting the parent span to endure distributed tracing works -->
+    <dependency>
       <groupId>com.newrelic.opentracing</groupId>
       <artifactId>newrelic-java-lambda</artifactId>
       <version>2.2.3</version>
     </dependency>
-<!--    <dependency>-->
-<!--      <groupId>com.newrelic.opentracing</groupId>-->
-<!--      <artifactId>java-aws-lambda</artifactId>-->
-<!--      <version>2.1.1</version>-->
-<!--    </dependency>-->
+
+    <!-- Required for sending distributed traces from the caller function -->
     <dependency>
       <groupId>io.opentracing</groupId>
       <artifactId>opentracing-api</artifactId>
       <version>${opentracing.version}</version>
     </dependency>
+
+    <!-- Required for sending distributed traces from the caller function -->
     <dependency>
       <groupId>io.opentracing</groupId>
       <artifactId>opentracing-util</artifactId>
       <version>${opentracing.version}</version>
     </dependency>
-    <dependency>
-      <groupId>com.amazonaws</groupId>
-      <artifactId>aws-java-sdk-core</artifactId>
-      <version>1.12.13</version>
-    </dependency>
+
+    <!-- Test only -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
